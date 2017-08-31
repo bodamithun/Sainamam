@@ -37,15 +37,31 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        if(selectedMediaFile != "babanamam1") {
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.babanamam1);
+        if(selectedMediaFile!= null && selectedMediaFile != "")
+        {
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(selectedMediaFile, "raw", getPackageName()));
         }
         else
         {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.babanamam2);
+            selectedMediaFile = "babanamam1";
+        }
+
+        if(selectedMediaFile != null) {
+            getSupportActionBar().setTitle("Sri Saibaba Namam");
         }
         ImageButton button =(ImageButton) findViewById(R.id.btnFindMe);
-        button.setImageResource(R.drawable.play1);
+
+        if(mediaPlayer.isPlaying()) {
+            //button.setImageResource(R.drawable.pause);
+            button.setImageResource(android.R.drawable.ic_media_pause);
+
+        }
+        else
+        {
+            //button.setImageResource(R.drawable.play1);
+            button.setImageResource(android.R.drawable.ic_media_play);
+        }
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -73,60 +89,55 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void PlayButtonClicked(View view)
     {
-        Toast.makeText(getBaseContext(), "Saibaba Babuji Playing", Toast.LENGTH_LONG).show();
         ImageButton button =(ImageButton) findViewById(R.id.btnFindMe);
-        //mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.babanamam1);
-        //initMediaPlayer(selectedMediaFile);
-            if(mediaPlayer.isPlaying())
-            {
-                mediaPlayer.pause();
-                button.setImageResource(R.drawable.play1);
-            }
-            else
-            {
-                mediaPlayer.start();
-                button.setImageResource(R.drawable.pause);
-            }
+        if(mediaPlayer.isPlaying())
+        {
+            mediaPlayer.pause();
+            //button.setImageResource(R.drawable.play1);
+            button.setImageResource(android.R.drawable.ic_media_play);
+
+        }
+        else
+        {
+            mediaPlayer.start();
+            mediaPlayer.setLooping(true);
+            //button.setImageResource(R.drawable.pause);
+            button.setImageResource(android.R.drawable.ic_media_pause);
+
+        }
     }
 
     private void initMediaPlayer(String mediafile) {
-        // Setup media player, but don't start until user clicks button!
+        ImageButton button =(ImageButton) findViewById(R.id.btnFindMe);
         try {
-            if (mediaPlayer != null) {
+            if(mediaPlayer.isPlaying()) {
                 mediaPlayer.stop();
-                mediaPlayer.release();
-                mediaPlayer = null;
-            }
-            if(mediafile == "babanamam1") {
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.babanamam1);
-            }
-            else
-            {
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.babanamam2);
-            }
-
-            ImageButton button =(ImageButton) findViewById(R.id.btnFindMe);
-            if(mediaPlayer.isPlaying())
-            {
+                mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(mediafile, "raw", getPackageName()));
                 mediaPlayer.start();
+                mediaPlayer.setLooping(true);
+                //button.setImageResource(R.drawable.pause);
+                button.setImageResource(android.R.drawable.ic_media_pause);
+
             }
             else
             {
-                button.setImageResource(R.drawable.play1);
-            }
+                mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(mediafile, "raw", getPackageName()));
+                //button.setImageResource(R.drawable.play1);
+                button.setImageResource(android.R.drawable.ic_media_play);
 
+            }
         }
         catch (Exception e) {
         }
@@ -138,21 +149,26 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
+        getSupportActionBar().setTitle("Baba Namam");
+        if (id == R.id.babanamam1) {
             // Handle the camera action
-            Toast.makeText(this, "Saibaba", Toast.LENGTH_SHORT).show();
-            getSupportActionBar().setTitle("Saibaba");
+            //Toast.makeText(this, "Saibaba", Toast.LENGTH_SHORT).show();
+            //getSupportActionBar().setTitle("Baba Namam");
             selectedMediaFile = "babanamam1";
-            //mediaPlayer.release();
             initMediaPlayer("babanamam1");
-        } else if (id == R.id.nav_gallery) {
-            Toast.makeText(this, "Babuji", Toast.LENGTH_SHORT).show();
-            getSupportActionBar().setTitle("Babuji");
+        } else if (id == R.id.babanamam2) {
             selectedMediaFile = "babanamam2";
-            //mediaPlayer.release();
-            initMediaPlayer("babanamam2");
         }
+        else if (id == R.id.babanamam2) {
+            selectedMediaFile = "babanamam2";
+        }
+        else if (id == R.id.babanamam4) {
+            selectedMediaFile = "babanamam4";
+        }
+        else if (id == R.id.babanamam5) {
+            selectedMediaFile = "babanamam5";
+        }
+        initMediaPlayer(selectedMediaFile);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
