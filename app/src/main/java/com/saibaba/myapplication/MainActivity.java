@@ -1,13 +1,7 @@
 package com.saibaba.myapplication;
 
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,14 +10,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     MediaPlayer mediaPlayer;
     String selectedMediaFile;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +110,6 @@ public class MainActivity extends AppCompatActivity
             mediaPlayer.setLooping(true);
             //button.setImageResource(R.drawable.pause);
             button.setImageResource(android.R.drawable.ic_media_pause);
-
         }
     }
 
