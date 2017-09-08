@@ -153,8 +153,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.babanamam2) {
             selectedMediaFile = "babanamam2";
         }
-        else if (id == R.id.babanamam2) {
-            selectedMediaFile = "babanamam2";
+        else if (id == R.id.babanamam3) {
+            selectedMediaFile = "babanamam3";
         }
         else if (id == R.id.babanamam4) {
             selectedMediaFile = "babanamam4";
