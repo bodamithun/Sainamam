@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity
@@ -29,8 +30,28 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                // Do whatever you want here
+                if(selectedMediaFile== null || selectedMediaFile == "")
+                {
+                    mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(selectedMediaFile, "raw", getPackageName()));
+                    selectedMediaFile = "babanamam1";
+                    Toast.makeText(getApplicationContext(), "Default Media File Selected", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // Do whatever you want here
+            }
+        };
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
         if(selectedMediaFile!= null && selectedMediaFile != "")
         {
@@ -43,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if(selectedMediaFile != null) {
-            getSupportActionBar().setTitle("Sri Saibaba Namam");
+            getSupportActionBar().setTitle("SaiBaba Namam");
         }
         ImageButton button =(ImageButton) findViewById(R.id.btnFindMe);
 
@@ -60,7 +81,24 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        checkFirstRun();
+
     }
+
+    public void checkFirstRun() {
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+        if (isFirstRun){
+            // Place your dialog code here to display the dialog
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.openDrawer(GravityCompat.START);
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("isFirstRun", false)
+                    .apply();
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -143,7 +181,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        getSupportActionBar().setTitle("Baba Namam");
+        getSupportActionBar().setTitle("SaiBaba Namam");
         if (id == R.id.babanamam1) {
             // Handle the camera action
             //Toast.makeText(this, "Saibaba", Toast.LENGTH_SHORT).show();
