@@ -8,11 +8,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 
 public class MainActivity extends AppCompatActivity
@@ -20,6 +25,8 @@ public class MainActivity extends AppCompatActivity
 
     MediaPlayer mediaPlayer;
     String selectedMediaFile;
+    int selectedIndex;
+    String arr[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,29 +35,12 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        arr = new String[] {"babanamam1", "babanamam2", "babanamam3", "R.id.babanamam4", "babanamam5"};
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        {
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                // Do whatever you want here
-                if(selectedMediaFile== null || selectedMediaFile == "")
-                {
-                    mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(selectedMediaFile, "raw", getPackageName()));
-                    selectedMediaFile = "babanamam1";
-                    Toast.makeText(getApplicationContext(), "Default Media File Selected", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                // Do whatever you want here
-            }
-        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         if(selectedMediaFile!= null && selectedMediaFile != "")
@@ -61,6 +51,7 @@ public class MainActivity extends AppCompatActivity
         {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.babanamam2);
             selectedMediaFile = "babanamam1";
+            selectedIndex = 0;
         }
 
         if(selectedMediaFile != null) {
@@ -81,17 +72,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        checkFirstRun();
+        checkFirstRun(drawer);
 
     }
 
-    public void checkFirstRun() {
-        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+    public void checkFirstRun(DrawerLayout drawer) {
+          boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
         if (isFirstRun){
             // Place your dialog code here to display the dialog
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.openDrawer(GravityCompat.START);
 
+            drawer.openDrawer(GravityCompat.START);
             getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                     .edit()
                     .putBoolean("isFirstRun", false)
@@ -145,11 +135,13 @@ public class MainActivity extends AppCompatActivity
         else
         {
             mediaPlayer.start();
-            mediaPlayer.setLooping(true);
+            //mediaPlayer.setLooping(true);
             //button.setImageResource(R.drawable.pause);
             button.setImageResource(android.R.drawable.ic_media_pause);
         }
     }
+
+
 
     private void initMediaPlayer(String mediafile) {
         ImageButton button =(ImageButton) findViewById(R.id.btnFindMe);
@@ -158,9 +150,11 @@ public class MainActivity extends AppCompatActivity
                 mediaPlayer.stop();
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(mediafile, "raw", getPackageName()));
                 mediaPlayer.start();
-                mediaPlayer.setLooping(true);
+                //mediaPlayer.setLooping(true);
                 //button.setImageResource(R.drawable.pause);
                 button.setImageResource(android.R.drawable.ic_media_pause);
+
+
 
             }
             else
@@ -181,29 +175,81 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        //int index = 0;
+        //AssestManager am = getActivity.getAss
         getSupportActionBar().setTitle("SaiBaba Namam");
+
+        ImageView qImageView = (ImageView) findViewById(R.id.imageView1);
+
+            //   qSV.setImageResource(0);
+        qImageView.setImageResource(R.drawable.saibaba1);
+
+
+
         if (id == R.id.babanamam1) {
             // Handle the camera action
             //Toast.makeText(this, "Saibaba", Toast.LENGTH_SHORT).show();
             //getSupportActionBar().setTitle("Baba Namam");
             selectedMediaFile = "babanamam1";
-            initMediaPlayer("babanamam1");
+            selectedIndex = Arrays.asList(arr).indexOf("babanamam1");
+            qImageView.setImageResource(R.drawable.saibaba);
+
+           // initMediaPlayer("babanamam1");
         } else if (id == R.id.babanamam2) {
             selectedMediaFile = "babanamam2";
+            selectedIndex = Arrays.asList(arr).indexOf("babanamam2");
+            qImageView.setImageResource(R.drawable.saibaba1);
         }
         else if (id == R.id.babanamam3) {
             selectedMediaFile = "babanamam3";
+            selectedIndex = Arrays.asList(arr).indexOf("babanamam3");
+            qImageView.setImageResource(R.drawable.saitune3);
         }
         else if (id == R.id.babanamam4) {
             selectedMediaFile = "babanamam4";
+            selectedIndex = Arrays.asList(arr).indexOf("babanamam4");
+            qImageView.setImageResource(R.drawable.saibaba1);
         }
         else if (id == R.id.babanamam5) {
             selectedMediaFile = "babanamam5";
+            selectedIndex = Arrays.asList(arr).indexOf("babanamam5");
+            qImageView.setImageResource(R.drawable.saibaba);
         }
         initMediaPlayer(selectedMediaFile);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        try {
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    //while(selectedIndex < arr.length)
+                    try {
+                    if (selectedIndex < arr.length) {
+
+                        selectedIndex++;
+                        mediaPlayer.stop();
+                        //mp.release();
+                        mediaPlayer.create(getApplicationContext(), getResources().getIdentifier(arr[selectedIndex], "raw", getPackageName()));
+
+                        mediaPlayer.start();
+                    }
+                    else
+                    {
+                        selectedIndex = 0;
+                    }
+
+                    } catch (Exception e) {
+                        Log.i("media", e.getMessage());
+                    }
+
+                }
+            });
+        }
+        catch (Exception e) {
+            Log.i("media", e.getMessage());
+        }
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }
