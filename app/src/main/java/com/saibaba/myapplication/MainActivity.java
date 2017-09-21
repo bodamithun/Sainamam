@@ -25,8 +25,12 @@ public class MainActivity extends AppCompatActivity
 
     MediaPlayer mediaPlayer;
     String selectedMediaFile;
+    int selectedImageFile;
     int selectedIndex;
+    int selectedImageIndex;
     String arr[];
+    int imageArray[];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        arr = new String[] {"babanamam1", "babanamam2", "babanamam3", "R.id.babanamam4", "babanamam5"};
+        arr = new String[] {"babanamam1", "babanamam2", "babanamam3", "babanamam4", "babanamam5"};
+        imageArray = new int[] {R.drawable.saibaba, R.drawable.saibaba1, R.drawable.saitune3, R.drawable.saibaba4, R.drawable.saibaba5};
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -143,23 +148,17 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    private void initMediaPlayer(String mediafile) {
+    private void initMediaPlayer() {
         ImageButton button =(ImageButton) findViewById(R.id.btnFindMe);
         try {
             if(mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(mediafile, "raw", getPackageName()));
-                mediaPlayer.start();
+
                 //mediaPlayer.setLooping(true);
                 //button.setImageResource(R.drawable.pause);
                 button.setImageResource(android.R.drawable.ic_media_pause);
-
-
-
             }
             else
             {
-                mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(mediafile, "raw", getPackageName()));
                 //button.setImageResource(R.drawable.play1);
                 button.setImageResource(android.R.drawable.ic_media_play);
 
@@ -175,81 +174,77 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        //int index = 0;
-        //AssestManager am = getActivity.getAss
         getSupportActionBar().setTitle("SaiBaba Namam");
-
-        ImageView qImageView = (ImageView) findViewById(R.id.imageView1);
-
-            //   qSV.setImageResource(0);
-        qImageView.setImageResource(R.drawable.saibaba1);
-
-
-
+        //ImageView qImageView = (ImageView) findViewById(R.id.imageView1);
+        //qImageView.setImageResource(R.drawable.saibaba1);
         if (id == R.id.babanamam1) {
             // Handle the camera action
             //Toast.makeText(this, "Saibaba", Toast.LENGTH_SHORT).show();
             //getSupportActionBar().setTitle("Baba Namam");
             selectedMediaFile = "babanamam1";
-            selectedIndex = Arrays.asList(arr).indexOf("babanamam1");
-            qImageView.setImageResource(R.drawable.saibaba);
+            selectedImageFile = R.drawable.saibaba;
 
-           // initMediaPlayer("babanamam1");
+           // qImageView.setImageResource(R.drawable.saibaba);
         } else if (id == R.id.babanamam2) {
             selectedMediaFile = "babanamam2";
-            selectedIndex = Arrays.asList(arr).indexOf("babanamam2");
-            qImageView.setImageResource(R.drawable.saibaba1);
+            selectedImageFile = R.drawable.saibaba1;
         }
         else if (id == R.id.babanamam3) {
             selectedMediaFile = "babanamam3";
-            selectedIndex = Arrays.asList(arr).indexOf("babanamam3");
-            qImageView.setImageResource(R.drawable.saitune3);
+            selectedImageFile = R.drawable.saitune3;
         }
         else if (id == R.id.babanamam4) {
             selectedMediaFile = "babanamam4";
-            selectedIndex = Arrays.asList(arr).indexOf("babanamam4");
-            qImageView.setImageResource(R.drawable.saibaba1);
+            selectedImageFile = R.drawable.saibaba;
         }
         else if (id == R.id.babanamam5) {
             selectedMediaFile = "babanamam5";
-            selectedIndex = Arrays.asList(arr).indexOf("babanamam5");
-            qImageView.setImageResource(R.drawable.saibaba);
+            selectedImageFile = R.drawable.saibaba1;
         }
-        initMediaPlayer(selectedMediaFile);
+        selectedIndex = Arrays.asList(arr).indexOf(selectedMediaFile);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        playAudio(selectedMediaFile, selectedImageFile);
+        //selectedImageIndex = 0;
+        initMediaPlayer();
+
+        return true;
+    }
+
+
+    public void playAudio(String mediafile, int selectedImageFile)
+    {
+        mediaPlayer.stop();
+        ImageView qImageView = (ImageView) findViewById(R.id.imageView1);
+        qImageView.setImageResource(selectedImageFile);
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(mediafile, "raw", getPackageName()));
         try {
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    //while(selectedIndex < arr.length)
-                    try {
-                    if (selectedIndex < arr.length) {
+                    mediaPlayer.stop();
 
+                    if(selectedIndex < arr.length)
+                    {
                         selectedIndex++;
-                        mediaPlayer.stop();
-                        //mp.release();
-                        mediaPlayer.create(getApplicationContext(), getResources().getIdentifier(arr[selectedIndex], "raw", getPackageName()));
-
-                        mediaPlayer.start();
+                        selectedImageIndex++;
                     }
-                    else
+                    if(selectedIndex == arr.length)
                     {
                         selectedIndex = 0;
                     }
-
-                    } catch (Exception e) {
-                        Log.i("media", e.getMessage());
+                    if(selectedImageIndex == 2)
+                    {
+                        selectedImageIndex = 0;
                     }
-
+                    selectedMediaFile = arr[selectedIndex];
+                    playAudio(selectedMediaFile, imageArray[selectedImageIndex]);
                 }
             });
+            mediaPlayer.start();
         }
         catch (Exception e) {
             Log.i("media", e.getMessage());
         }
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }
