@@ -28,7 +28,7 @@
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/saibaba"
+        app:srcCompat="@drawable/bg1"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:layout_alignParentTop="true"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
         android:layout_marginStart="35dp"
-        app:srcCompat="@android:drawable/ic_media_previous"
+        app:srcCompat="@drawable/previous"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:onClick="PreviousButtonClicked" />/>
@@ -51,27 +51,28 @@
         android:id="@+id/btnFindMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:srcCompat="@drawable/play"
+        android:onClick="PlayButtonClicked"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="15dp"
         android:layout_alignBottom="@+id/imageButton1"
-        android:layout_marginStart="46dp"
-        android:layout_toEndOf="@+id/imageButton1"
-        app:srcCompat="@android:drawable/ic_media_play"
-        android:onClick="PlayButtonClicked" />
+        android:layout_toEndOf="@+id/imageButton1" />
 
     <ImageButton
         android:id="@+id/imageButton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btnFindMe"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="61dp"
-        app:srcCompat="@android:drawable/ic_media_next"
-        android:onClick="NextButtonClicked" />
+        app:srcCompat="@drawable/next"
+        android:onClick="NextButtonClicked"
+        android:layout_above="@+id/imageButton5" />
 
     <ImageButton
         android:id="@+id/imageButton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_menu_share"
+        app:srcCompat="@drawable/repeat"
         android:layout_below="@+id/btnFindMe"
         android:layout_toEndOf="@+id/imageButton1"
         android:onClick="RepeatButtonClicked"/>
@@ -82,6 +83,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageButton4"
         android:layout_toStartOf="@+id/imageButton3"
-        app:srcCompat="@android:drawable/ic_menu_manage"
+        app:srcCompat="@drawable/shuffle"
         android:onClick="ShuffleButtonClicked"/>
 </RelativeLayout>

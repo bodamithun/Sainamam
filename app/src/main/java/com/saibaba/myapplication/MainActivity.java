@@ -14,9 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -43,7 +41,13 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         arr = new String[]{"babanamam1", "babanamam2", "babanamam3", "babanamam4", "babanamam5"};
-        imageArray = new int[]{R.drawable.saibaba, R.drawable.saibaba1, R.drawable.saitune3, R.drawable.saibaba4, R.drawable.saibaba5};
+        //imageArray = new int[]{R.drawable.saibaba, R.drawable.saibaba1, R.drawable.saitune3, R.drawable.saibaba4, R.drawable.saibaba5};
+        imageArray = new int[]{R.drawable.bg1, R.drawable.bg2,
+                R.drawable.bg3, R.drawable.bg4, R.drawable.bg5,
+                R.drawable.bg6, R.drawable.bg7, R.drawable.bg8,
+                R.drawable.bg9, R.drawable.bg10, R.drawable.bg11,
+                R.drawable.bg12, R.drawable.bg13, R.drawable.bg14};
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,11 +70,11 @@ public class MainActivity extends AppCompatActivity
 
         if (mediaPlayer.isPlaying()) {
             //button.setImageResource(R.drawable.pause);
-            button.setImageResource(android.R.drawable.ic_media_pause);
+            button.setImageResource(R.drawable.pause);
 
         } else {
             //button.setImageResource(R.drawable.play1);
-            button.setImageResource(android.R.drawable.ic_media_play);
+            button.setImageResource(R.drawable.play);
         }
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -129,10 +133,12 @@ public class MainActivity extends AppCompatActivity
         if (++selectedIndex >= arr.length) {
             selectedIndex = 0;
         }
+        if(++selectedImageIndex >= imageArray.length)
+        {
+            selectedImageIndex = 0;
+        }
         selectedMediaFile = arr[selectedIndex];
-        //uncomment this line once all the images are correct
-        //selectedImageFile = imageArray[++selectedImageIndex];
-        selectedImageFile = imageArray[0];
+        selectedImageFile = imageArray[selectedImageIndex];
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             playAudio(selectedMediaFile, selectedImageFile, false);
@@ -145,10 +151,12 @@ public class MainActivity extends AppCompatActivity
             selectedIndex = arr.length - 1;
         }
         selectedMediaFile = arr[selectedIndex];
-        //uncomment this line once all the images are correct
-        // selectedImageFile = imageArray[--selectedImageIndex];
+        if(--selectedImageIndex == -1)
+        {
+            selectedImageIndex = imageArray.length-1;
+        }
+        selectedImageFile = imageArray[selectedImageIndex];
         if (mediaPlayer.isPlaying()) {
-            selectedImageFile = imageArray[0];
             mediaPlayer.stop();
             playAudio(selectedMediaFile, selectedImageFile, false);
         }
@@ -171,16 +179,15 @@ public class MainActivity extends AppCompatActivity
 
     public void PlayButtonClicked(View view) {
         ImageButton button = (ImageButton) findViewById(R.id.btnFindMe);
-        //need to set the correct image once all the images are working
 
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
-            button.setImageResource(android.R.drawable.ic_media_play);
-            playAudio(arr[selectedIndex], imageArray[0], true);
+            button.setImageResource(R.drawable.play);
+            playAudio(arr[selectedIndex], imageArray[selectedImageIndex], true);
 
         } else {
-            button.setImageResource(android.R.drawable.ic_media_pause);
-            playAudio(arr[selectedIndex], imageArray[0], false);
+            button.setImageResource(R.drawable.pause);
+            playAudio(arr[selectedIndex], imageArray[selectedImageIndex], false);
         }
     }
 
@@ -188,7 +195,7 @@ public class MainActivity extends AppCompatActivity
     private void initMediaPlayer() {
         ImageButton button = (ImageButton) findViewById(R.id.btnFindMe);
         try {
-            button.setImageResource(android.R.drawable.ic_media_pause);
+            button.setImageResource(R.drawable.pause);
 
         } catch (Exception e) {
         }
@@ -208,28 +215,28 @@ public class MainActivity extends AppCompatActivity
             //Toast.makeText(this, "Saibaba", Toast.LENGTH_SHORT).show();
             //getSupportActionBar().setTitle("Baba Namam");
             selectedMediaFile = "babanamam1";
-            selectedImageFile = R.drawable.saibaba;
+            selectedImageFile = R.drawable.bg1;
 
             // qImageView.setImageResource(R.drawable.saibaba);
         } else if (id == R.id.babanamam2) {
             selectedMediaFile = "babanamam2";
-            selectedImageFile = R.drawable.saibaba1;
+            selectedImageFile = R.drawable.bg2;
+
         } else if (id == R.id.babanamam3) {
             selectedMediaFile = "babanamam3";
-            selectedImageFile = R.drawable.saitune3;
+            selectedImageFile = R.drawable.bg3;
         } else if (id == R.id.babanamam4) {
             selectedMediaFile = "babanamam4";
-            selectedImageFile = R.drawable.saibaba;
+            selectedImageFile = R.drawable.bg4;
         } else if (id == R.id.babanamam5) {
             selectedMediaFile = "babanamam5";
-            selectedImageFile = R.drawable.saibaba1;
+            selectedImageFile = R.drawable.bg5;
         }
         selectedIndex = Arrays.asList(arr).indexOf(selectedMediaFile);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         mediaPlayer.stop();
         playAudio(selectedMediaFile, selectedImageFile, false);
-        //selectedImageIndex = 0;
 
         initMediaPlayer();
 
@@ -255,10 +262,11 @@ public class MainActivity extends AppCompatActivity
     public void playAudio(String mediafile, int selectedImageFile, boolean isPauseClicked) {
         if (isPauseClicked) {
             mediaPlayer.pause();
-        } else {
-            if (selectedImageIndex >= 2) {
-                selectedImageIndex = 0;
-            }
+        }
+        else {
+          //  if (selectedImageIndex >= 2) {
+            //    selectedImageIndex = 0;
+            //}
             ImageView qImageView = (ImageView) findViewById(R.id.imageView1);
             qImageView.setImageResource(selectedImageFile);
             mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(mediafile, "raw", getPackageName()));
@@ -267,6 +275,8 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onCompletion(MediaPlayer mp) {
                         mediaPlayer.stop();
+                        mediaPlayer.release();
+                        mediaPlayer=null;
                         if (isRamdomSelected) {
                             SetSelectedIndexOnShuffleSelected();
                         } else {
@@ -279,7 +289,7 @@ public class MainActivity extends AppCompatActivity
                                 selectedIndex = 0;
                             }
                         }
-                        if (selectedImageIndex == 2) {
+                        if (selectedImageIndex == 13) {
                             selectedImageIndex = 0;
                         }
 
