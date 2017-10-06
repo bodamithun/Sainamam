@@ -3,6 +3,8 @@ package com.saibaba.myapplication;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -201,6 +203,24 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void displaySelectedScreen(int id){
+        Fragment fragment = null;
+        switch(id) {
+            case R.id.aboutsaibaba:
+                fragment = new AboutSaibaba();
+                break;
+        }
+        if(fragment != null)
+        {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.mainLayout, fragment);
+            ft.commit();
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -216,8 +236,6 @@ public class MainActivity extends AppCompatActivity
             //getSupportActionBar().setTitle("Baba Namam");
             selectedMediaFile = "babanamam1";
             selectedImageFile = R.drawable.bg1;
-
-            // qImageView.setImageResource(R.drawable.saibaba);
         } else if (id == R.id.babanamam2) {
             selectedMediaFile = "babanamam2";
             selectedImageFile = R.drawable.bg2;
@@ -231,6 +249,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.babanamam5) {
             selectedMediaFile = "babanamam5";
             selectedImageFile = R.drawable.bg5;
+        }
+        else if(id == R.id.aboutsaibaba) {
+            displaySelectedScreen(id);
+            return true;
         }
         selectedIndex = Arrays.asList(arr).indexOf(selectedMediaFile);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -264,9 +286,7 @@ public class MainActivity extends AppCompatActivity
             mediaPlayer.pause();
         }
         else {
-          //  if (selectedImageIndex >= 2) {
-            //    selectedImageIndex = 0;
-            //}
+
             ImageView qImageView = (ImageView) findViewById(R.id.imageView1);
             qImageView.setImageResource(selectedImageFile);
             mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(mediafile, "raw", getPackageName()));
