@@ -3,8 +3,6 @@ package com.saibaba.myapplication;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -203,23 +201,23 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void displaySelectedScreen(int id){
-        Fragment fragment = null;
-        switch(id) {
-            case R.id.aboutsaibaba:
-                fragment = new AboutSaibaba();
-                break;
-        }
-        if(fragment != null)
-        {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.mainLayout, fragment);
-            ft.commit();
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-
-    }
+//    private void displaySelectedScreen(int id){
+//        Fragment fragment = null;
+//        switch(id) {
+//            case R.id.aboutsaibaba:
+//                fragment = new AboutSaibabaFragment();
+//                break;
+//        }
+//        if(fragment != null)
+//        {
+//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//            ft.replace(R.id.mainLayout, fragment);
+//            ft.commit();
+//        }
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
+//
+//    }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -227,6 +225,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        android.app.FragmentManager fragmentManager = getFragmentManager();
         getSupportActionBar().setTitle("SaiBaba Namam");
         //ImageView qImageView = (ImageView) findViewById(R.id.imageView1);
         //qImageView.setImageResource(R.drawable.saibaba1);
@@ -250,9 +249,11 @@ public class MainActivity extends AppCompatActivity
             selectedMediaFile = "babanamam5";
             selectedImageFile = R.drawable.bg5;
         }
+        // TODO: DEFECT - items in the navigation drawer need to replace the contentframe
         else if(id == R.id.aboutsaibaba) {
-            displaySelectedScreen(id);
-            return true;
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame,
+                            new AboutSaibabaFragment()).commit();
         }
         selectedIndex = Arrays.asList(arr).indexOf(selectedMediaFile);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
