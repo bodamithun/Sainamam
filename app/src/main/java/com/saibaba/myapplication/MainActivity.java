@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         arr = new String[]{"babanamam1", "babanamam2", "babanamam3", "babanamam4", "babanamam5"};
-        //imageArray = new int[]{R.drawable.saibaba, R.drawable.saibaba1, R.drawable.saitune3, R.drawable.saibaba4, R.drawable.saibaba5};
         imageArray = new int[]{R.drawable.bg1, R.drawable.bg2,
                 R.drawable.bg3, R.drawable.bg4, R.drawable.bg5,
                 R.drawable.bg6, R.drawable.bg7, R.drawable.bg8,
@@ -69,16 +68,19 @@ public class MainActivity extends AppCompatActivity
         ImageButton button = (ImageButton) findViewById(R.id.btnFindMe);
 
         if (mediaPlayer.isPlaying()) {
-            //button.setImageResource(R.drawable.pause);
             button.setImageResource(R.drawable.pause);
-
         } else {
-            //button.setImageResource(R.drawable.play1);
             button.setImageResource(R.drawable.play);
         }
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        //set the default fragment
+        android.support.v4.app.FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
+        fragmentManager.replace(R.id.content_frame, new MainFragment()).commit();
+
+        getSupportActionBar().setTitle("SaiBaba Namam");
         checkFirstRun(drawer);
 
     }
@@ -133,8 +135,7 @@ public class MainActivity extends AppCompatActivity
         if (++selectedIndex >= arr.length) {
             selectedIndex = 0;
         }
-        if(++selectedImageIndex >= imageArray.length)
-        {
+        if (++selectedImageIndex >= imageArray.length) {
             selectedImageIndex = 0;
         }
         selectedMediaFile = arr[selectedIndex];
@@ -151,9 +152,8 @@ public class MainActivity extends AppCompatActivity
             selectedIndex = arr.length - 1;
         }
         selectedMediaFile = arr[selectedIndex];
-        if(--selectedImageIndex == -1)
-        {
-            selectedImageIndex = imageArray.length-1;
+        if (--selectedImageIndex == -1) {
+            selectedImageIndex = imageArray.length - 1;
         }
         selectedImageFile = imageArray[selectedImageIndex];
         if (mediaPlayer.isPlaying()) {
@@ -201,73 +201,57 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-//    private void displaySelectedScreen(int id){
-//        Fragment fragment = null;
-//        switch(id) {
-//            case R.id.aboutsaibaba:
-//                fragment = new AboutSaibabaFragment();
-//                break;
-//        }
-//        if(fragment != null)
-//        {
-//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//            ft.replace(R.id.mainLayout, fragment);
-//            ft.commit();
-//        }
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//
-//    }
+
 
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-        android.app.FragmentManager fragmentManager = getFragmentManager();
-        getSupportActionBar().setTitle("SaiBaba Namam");
-        //ImageView qImageView = (ImageView) findViewById(R.id.imageView1);
-        //qImageView.setImageResource(R.drawable.saibaba1);
+        Boolean mainFrame = false;
+        android.support.v4.app.FragmentTransaction fragmentManager = getSupportFragmentManager().beginTransaction();
+
+        // Handle navigation view item clicks here.
         if (id == R.id.babanamam1) {
-            // Handle the camera action
-            //Toast.makeText(this, "Saibaba", Toast.LENGTH_SHORT).show();
-            //getSupportActionBar().setTitle("Baba Namam");
             selectedMediaFile = "babanamam1";
             selectedImageFile = R.drawable.bg1;
+            mainFrame = true;
         } else if (id == R.id.babanamam2) {
             selectedMediaFile = "babanamam2";
             selectedImageFile = R.drawable.bg2;
-
+            mainFrame = true;
         } else if (id == R.id.babanamam3) {
             selectedMediaFile = "babanamam3";
             selectedImageFile = R.drawable.bg3;
+            mainFrame = true;
         } else if (id == R.id.babanamam4) {
             selectedMediaFile = "babanamam4";
             selectedImageFile = R.drawable.bg4;
+            mainFrame = true;
         } else if (id == R.id.babanamam5) {
             selectedMediaFile = "babanamam5";
             selectedImageFile = R.drawable.bg5;
+            mainFrame = true;
         }
-        // TODO: DEFECT - items in the navigation drawer need to replace the contentframe
-        else if(id == R.id.aboutsaibaba) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame,
-                            new AboutSaibabaFragment()).commit();
+
+        if(mainFrame) {
+            fragmentManager.replace(R.id.content_frame, new MainFragment()).commit();
         }
+        else{
+            fragmentManager.replace(R.id.content_frame, new AboutSaibabaFragment()).commit();
+        }
+
+
         selectedIndex = Arrays.asList(arr).indexOf(selectedMediaFile);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         mediaPlayer.stop();
         playAudio(selectedMediaFile, selectedImageFile, false);
-
         initMediaPlayer();
-
         return true;
     }
 
-    private void SetSelectedIndexOnShuffleSelected()
-    {
+    private void SetSelectedIndexOnShuffleSelected() {
         Random rnd = new Random();
         int randIndex = rnd.nextInt(arr.length);
         if (randIndex == selectedIndex) {
@@ -285,8 +269,7 @@ public class MainActivity extends AppCompatActivity
     public void playAudio(String mediafile, int selectedImageFile, boolean isPauseClicked) {
         if (isPauseClicked) {
             mediaPlayer.pause();
-        }
-        else {
+        } else {
 
             ImageView qImageView = (ImageView) findViewById(R.id.imageView1);
             qImageView.setImageResource(selectedImageFile);
@@ -297,7 +280,7 @@ public class MainActivity extends AppCompatActivity
                     public void onCompletion(MediaPlayer mp) {
                         mediaPlayer.stop();
                         mediaPlayer.release();
-                        mediaPlayer=null;
+                        mediaPlayer = null;
                         if (isRamdomSelected) {
                             SetSelectedIndexOnShuffleSelected();
                         } else {
