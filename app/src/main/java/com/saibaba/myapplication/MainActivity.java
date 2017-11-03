@@ -32,12 +32,14 @@ public class MainActivity extends AppCompatActivity
     boolean isLoopingSet;
     boolean isRamdomSelected;
 
-
+    ImageButton button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+         button = (ImageButton) findViewById(R.id.btnFindMe);
+
         setSupportActionBar(toolbar);
 
         arr = new String[]{"babanamam1", "babanamam2", "babanamam3", "babanamam4", "babanamam5"};
@@ -65,12 +67,12 @@ public class MainActivity extends AppCompatActivity
         if (selectedMediaFile != null) {
             getSupportActionBar().setTitle("SaiBaba Namam");
         }
-        ImageButton button = (ImageButton) findViewById(R.id.btnFindMe);
 
         if (mediaPlayer.isPlaying()) {
-            button.setImageResource(R.drawable.pause);
+            button.setImageResource(R.drawable.ic_pause);
         } else {
-            button.setImageResource(R.drawable.play);
+
+           // button.setImageResource(R.drawable.play);
         }
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -182,11 +184,11 @@ public class MainActivity extends AppCompatActivity
 
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
-            button.setImageResource(R.drawable.play);
+            button.setImageResource(R.drawable.ic_play);
             playAudio(arr[selectedIndex], imageArray[selectedImageIndex], true);
 
         } else {
-            button.setImageResource(R.drawable.pause);
+            button.setImageResource(R.drawable.ic_pause);
             playAudio(arr[selectedIndex], imageArray[selectedImageIndex], false);
         }
     }
@@ -195,7 +197,7 @@ public class MainActivity extends AppCompatActivity
     private void initMediaPlayer() {
         ImageButton button = (ImageButton) findViewById(R.id.btnFindMe);
         try {
-            button.setImageResource(R.drawable.pause);
+            button.setImageResource(R.drawable.ic_pause);
 
         } catch (Exception e) {
         }
@@ -233,13 +235,18 @@ public class MainActivity extends AppCompatActivity
             selectedImageFile = R.drawable.bg5;
             mainFrame = true;
         }
-
-        if(mainFrame) {
-            fragmentManager.replace(R.id.content_frame, new MainFragment()).commit();
-        }
-        else{
+        else if (id == R.id.aboutsaibaba) {
+            selectedMediaFile = "babanamam5";
+            selectedImageFile = R.drawable.bg5;
+            mainFrame = true;
             fragmentManager.replace(R.id.content_frame, new AboutSaibabaFragment()).commit();
         }
+        if(mainFrame) {
+            fragmentManager.replace(R.id.content_frame, new MainFragment()).addToBackStack(null).commit();
+        }
+       /* else{
+            fragmentManager.replace(R.id.content_frame, new AboutSaibabaFragment()).commit();
+        }*/
 
 
         selectedIndex = Arrays.asList(arr).indexOf(selectedMediaFile);

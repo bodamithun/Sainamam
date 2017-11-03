@@ -1,3 +1,9 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,57 +22,104 @@
         android:scaleType="fitXY"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
     <ImageButton
-        android:id="@+id/imageButton1"
+        android:id="@+id/img_previous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:layout_marginStart="35dp"
-        app:srcCompat="@drawable/previous"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:onClick="PreviousButtonClicked" />
+        android:layout_marginBottom="31dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/ic_previous"
+        android:background="@null"
+        android:layout_marginEnd="28dp"
+        android:layout_above="@+id/imageButton4"
+        android:layout_toStartOf="@+id/btnFindMe" />
 
     <ImageButton
         android:id="@+id/btnFindMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/play"
-        android:onClick="PlayButtonClicked"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="15dp"
-        android:layout_alignBottom="@+id/imageButton1"
-        android:layout_toEndOf="@+id/imageButton1" />
+        android:background="@null"
+        android:src="@drawable/ic_play"
+        android:layout_alignTop="@+id/img_previous"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/img_nxtButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="61dp"
-        app:srcCompat="@drawable/next"
-        android:onClick="NextButtonClicked"
-        android:layout_above="@+id/imageButton5" />
+        android:src="@drawable/ic_next"
+        android:background="@drawable/ic_next"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignBottom="@+id/btnFindMe"
+        android:layout_toEndOf="@+id/btnFindMe" />
 
     <ImageButton
         android:id="@+id/imageButton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/repeat"
-        android:layout_below="@+id/btnFindMe"
-        android:layout_toEndOf="@+id/imageButton1"
-        android:onClick="RepeatButtonClicked"/>
+        android:background="@drawable/ic_repeat"
+        android:onClick="RepeatButtonClicked"
+        android:layout_alignBottom="@+id/imageButton5"
+        android:layout_toStartOf="@+id/btnFindMe" />
 
     <ImageButton
         android:id="@+id/imageButton5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageButton4"
-        android:layout_toStartOf="@+id/imageButton3"
-        app:srcCompat="@drawable/shuffle"
-        android:onClick="ShuffleButtonClicked"/>
-
+        android:background="@drawable/ic_shuffle"
+        android:layout_marginLeft="70dp"
+        android:onClick="ShuffleButtonClicked"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_alignStart="@+id/btnFindMe" />
 </RelativeLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_action_plus"
+        android:background="@null"
+        app:borderWidth="0dp"
+        app:elevation="8dp"
+        app:layout_anchor="@id/mainFragment"
+        app:layout_anchorGravity="top|right|end"
+        app:pressedTranslationZ="12dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:layout_marginRight="@dimen/fab_margin_right"
+        android:src="@drawable/ic_action_share"
+        android:background="@drawable/ic_action_share"
+        app:elevation="8dp"
+        app:layout_anchor="@id/mainFragment"
+        app:layout_anchorGravity="top|end"
+        app:pressedTranslationZ="12dp"
+        android:visibility="invisible"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:layout_marginRight="@dimen/fab_margin_right"
+        android:src="@drawable/ic_action_download"
+        android:background="@drawable/ic_action_download"
+        app:elevation="8dp"
+        app:layout_anchor="@id/mainFragment"
+        app:layout_anchorGravity="top|end"
+        app:pressedTranslationZ="12dp"
+        android:visibility="invisible"/>
+
+
+
+</android.support.design.widget.CoordinatorLayout>
