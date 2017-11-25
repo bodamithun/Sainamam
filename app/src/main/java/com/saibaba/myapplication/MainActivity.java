@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity
             mediaPlayer.pause();
         } else {
 
-            ImageView qImageView = (ImageView) findViewById(R.id.imageView1);
+            ImageView qImageView = (ImageView) findViewById(R.id.imageView);
             qImageView.setImageResource(selectedImageFile);
             mediaPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(mediafile, "raw", getPackageName()));
             try {

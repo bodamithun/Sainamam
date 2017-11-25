@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <ImageView android:id="@+id/headerImageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/appicon"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"/>
+    <TextView android:id="@+id/headerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Avacado"
+        android:textSize="20sp"
+        android:layout_toRightOf="@+id/headerImageView"
+        android:layout_marginLeft="55dp"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/headerImageView"
+        android:layout_marginStart="30dp" />
+</RelativeLayout>
