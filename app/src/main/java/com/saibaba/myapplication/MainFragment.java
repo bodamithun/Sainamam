@@ -65,7 +65,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     ImageButton img_nxtButton, img_previous, img_repeatButton, img_shuffleButton;
     ImageButton fab_plus, fab_share, fab_download;
     Animation fabOpen, fabClose, fabRotateClockWise, fabRotateAntiClockWise;
-     ArrayList<String> values;
+    ArrayList<Object> values;
     Boolean isOpen = false;
 
     public MainFragment() {
@@ -98,37 +98,37 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         fabRotateAntiClockWise = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.rotate_anticlockwise);
         final ListView songList = (ListView) view.findViewById(R.id.songList);
 
-        final ArrayList<Object> values = new ArrayList<>();
+        values = new ArrayList<>();
         values.add(new HeaderItem("SongListHeader1", R.drawable.bg1));
-        values.add(new String("Sai tune1"));
-        values.add(new String("Sai tune2"));
-        values.add(new String("Sai tune3"));
-        values.add(new String("Sai tune4"));
-        values.add(new String("Sai tune5"));
-        values.add(new String("Sai tune6"));
-        values.add(new String("Sai tune7"));
-        values.add(new String("Sai tune8"));
-        values.add(new String("Sai tune9"));
-        values.add(new String("Sai tune10"));
+        values.add("Sai tune1");
+        values.add("Sai tune2");
+        values.add("Sai tune3");
+        values.add("Sai tune4");
+        values.add("Sai tune5");
+        values.add("Sai tune6");
+        values.add("Sai tune7");
+        values.add("Sai tune8");
+        values.add("Sai tune9");
+        values.add("Sai tune10");
         values.add(new HeaderItem("SongListHeader2", R.drawable.bg2));
-        values.add(new String("Sai tune11"));
-        values.add(new String("Sai tune12"));
-        values.add(new String("Sai tune13"));
-        values.add(new String("Sai tune14"));
-        values.add(new String("Sai tune15"));
-        values.add(new String("Sai tune16"));
-        values.add(new String("Sai tune17"));
-        values.add(new String("Sai tune18"));
-        values.add(new String("Sai tune19"));
-        values.add(new String("Sai tune20"));
-        values.add(new String("Sai tune21"));
-        values.add(new String("Sai tune22"));
-        values.add(new String("Sai tune23"));
-        values.add(new String("Sai tune24"));
-        values.add(new String("Sai tune25"));
-        values.add(new String("Sai tune26"));
+        values.add("Sai tune11");
+        values.add("Sai tune12");
+        values.add("Sai tune13");
+        values.add("Sai tune14");
+        values.add("Sai tune15");
+        values.add("Sai tune16");
+        values.add("Sai tune17");
+        values.add("Sai tune18");
+        values.add("Sai tune19");
+        values.add("Sai tune20");
+        values.add("Sai tune21");
+        values.add("Sai tune22");
+        values.add("Sai tune23");
+        values.add("Sai tune24");
+        values.add("Sai tune25");
+        values.add("Sai tune26");
 
-        values.add(new String("about SaiPatham"));
+        values.add("about SaiPatham");
 
 
         //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.listitem, android.R.id.text1, values);
@@ -148,6 +148,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     } else {
                         slideToBottom(songList);
                         songTitle.setText(((String) values.get(i)));
+                        selectedIndex = i;
                         buttonLayout.setVisibility(view.VISIBLE);
                         playAudio(arr[i], imageArray[i], false);
                     }
@@ -243,7 +244,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             mediaPlayer = MediaPlayer.create(getActivity(), R.raw.s1);
             selectedMediaFile = "babanamam1";
             songTitle.setText("Sai tune1");
-            selectedIndex = 0;
+            selectedIndex = 1;
         }
 
         if (selectedMediaFile != null) {
@@ -296,14 +297,18 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                         selectedImageIndex++;
                     }
                     if (selectedIndex == arr.length) {
-                        selectedIndex = 0;
+                        selectedIndex = 1;
                     }
                 }
                 if (selectedImageIndex == 13) {
                     selectedImageIndex = 0;
                 }
-
+                if(selectedIndex == 0 || selectedIndex == 11)
+                {
+                    selectedIndex++;
+                }
                 selectedMediaFile = arr[selectedIndex];
+                songTitle.setText(((String) values.get(selectedIndex)));
                 playAudio(selectedMediaFile, imageArray[selectedImageIndex], false);
             }
 
@@ -322,13 +327,19 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     public void NextButtonClicked() {
         if (++selectedIndex >= arr.length) {
-            selectedIndex = 0;
+            selectedIndex = 1;
         }
         if (++selectedImageIndex >= imageArray.length) {
             selectedImageIndex = 0;
         }
+        if(selectedIndex == 0 || selectedIndex == 11)
+        {
+            selectedIndex++;
+        }
         selectedMediaFile = arr[selectedIndex];
-        songTitle.setText(values.get(selectedIndex));
+        if(values.get(selectedIndex) instanceof String ) {
+            songTitle.setText((String) values.get(selectedIndex));
+        }
         selectedImageFile = imageArray[selectedImageIndex];
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
@@ -341,11 +352,15 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         if (--selectedIndex == -1) {
             selectedIndex = arr.length - 1;
         }
+        if(selectedIndex == 0 || selectedIndex == 11)
+        {
+            selectedIndex++;
+        }
         selectedMediaFile = arr[selectedIndex];
         if (--selectedImageIndex == -1) {
             selectedImageIndex = imageArray.length - 1;
         }
-        songTitle.setText(values.get(selectedIndex));
+        songTitle.setText(((String) values.get(selectedIndex)));
         selectedImageFile = imageArray[selectedImageIndex];
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();

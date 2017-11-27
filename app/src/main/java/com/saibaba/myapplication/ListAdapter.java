@@ -88,6 +88,7 @@ public class ListAdapter extends BaseAdapter {
                 TextView textView = (TextView) view.findViewById(R.id.headerText);
 
                 imageView.setImageResource(((HeaderItem)list.get(position)).getImageName());
+                textView.setText(((HeaderItem) list.get(position)).getName());
                 break;
         }
         return view;
